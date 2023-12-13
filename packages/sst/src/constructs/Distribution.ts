@@ -264,10 +264,6 @@ export class Distribution extends Construct {
       return;
     }
 
-    if (!customDomain.domainName) {
-      throw new VisibleError(`Missing "domainName" for customDomain.`);
-    }
-
     if (customDomain.isExternalDomain === true) {
       if (!customDomain.cdk?.certificate) {
         throw new VisibleError(
@@ -346,7 +342,7 @@ export class Distribution extends Construct {
         );
       } else if (customDomain.cdk?.certificate) {
         acmCertificate = customDomain.cdk.certificate;
-      } else {
+      } else if (customDomain.domainName) {
         acmCertificate = new DnsValidatedCertificate(
           this.scope,
           "Certificate",
@@ -386,7 +382,9 @@ export class Distribution extends Construct {
     } else if (typeof customDomain === "string") {
       domainNames.push(customDomain);
     } else {
-      domainNames.push(customDomain.domainName);
+      if (customDomain.domainName) {
+        domainNames.push(customDomain.domainName);
+      }
       if (customDomain.alternateNames) {
         if (!customDomain.cdk?.certificate)
           throw new VisibleError(
@@ -424,7 +422,7 @@ export class Distribution extends Construct {
     new AaaaRecord(this.scope, "AliasRecordAAAA", recordProps);
 
     // Create Alias redirect record
-    if (domainAlias) {
+    if (domainAlias && recordName) {
       new HttpsRedirect(this.scope, "Redirect", {
         zone: this.hostedZone,
         recordNames: [domainAlias],

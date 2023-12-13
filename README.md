@@ -1,3 +1,5 @@
+To PUBLISH: build from root, copy package.json and node_modules into dist, then run `npm publish` from dist
+
 <p align="center">
   <a href="https://sst.dev/">
     <img alt="SST" src="https://raw.githubusercontent.com/sst/identity/main/variants/sst-full.svg" width="300" />

@@ -4,8 +4,8 @@
     "access": "public"
   },
   "sideEffects": false,
-  "name": "sst",
-  "version": "2.38.7",
+  "name": "@buildresonance/sst",
+  "version": "2.38.9",
   "bin": {
     "sst": "cli/sst.js"
   },
